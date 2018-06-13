@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>TODOS</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+
+        <h2>Welcome to TODO</h2>
+
+        <div style="padding:30px">
+            <div id="data"></div>
+        </div>
+        <script type="text/javascript">
+
+            axios.get('/api/values')
+                .then(function(response) {
+                    console.log(response);
+                    const elm = document.getElementById('data');
+                    elm.innerHTML = JSON.stringify(response.data, false,4);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+
+       </script>
+    </body>
+</html>
