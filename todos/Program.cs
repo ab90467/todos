@@ -21,9 +21,11 @@ namespace todos
         {
             CreateWebHostBuilder(args).Build().Run();
 
-            var db = new DBinterface();
-            var data = db.Get("SELECT * FROM user");
-            System.Diagnostics.Debug.WriteLine("data " + data);
+            //var db = new DBinterface();
+            //var data = db.Get("SELECT * FROM user");
+            //var data = Utility.Instance.MyQueryString("listusers");
+  
+            //System.Diagnostics.Trace.WriteLine("johnny " + data);
 
         }
 

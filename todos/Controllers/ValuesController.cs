@@ -17,7 +17,7 @@ namespace todos.Controllers
         public ActionResult<string> Get()
         {
             var db = new DBinterface();
-            var data = db.Get("SELECT * FROM user");
+            var data = db.Get("listtasks");
             return data;
         }
         // GET api/values
@@ -28,11 +28,24 @@ namespace todos.Controllers
         }*/
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{value}")]
+        public ActionResult<string> Get(String value)
+        {
+            //return "value " + id.ToString();
+            var db = new DBinterface();
+            var data = db.Get(value);
+            return data;
+        }
+
+        /*// GET api/values/5
+        [HttpGet("{value}")]
         public ActionResult<string> Get(int id)
         {
-            return "value " + id.ToString();
-        }
+            //return "value " + id.ToString();
+            var db = new DBinterface();
+            var data = db.Get(value.ToString());
+            return data;
+        }*/
 
         // POST api/values
         [HttpPost]
