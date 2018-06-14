@@ -4,17 +4,17 @@ import Tab from '../src/components/Tab.vue';
 import Tabs from '../src/components/Tabs.vue';
 import Loading from '../src/components/Loading.vue';
 
-import ajax from '../src/js/ajax.js';
-/* eslint-disable no-new */
-/*new Vue({
-    el: '#app',
-    template: '<App/>',
-    components: { App, Tab, Tabs }
-});*/
 
-todo.ajax.init();
+
+import Listtasks from '../src/components/ListTasks.vue';
+import ajax from '../src/js/ajax.js';
+ajax.init();
+
+
+// https://css-tricks.com/creating-vue-js-component-instances-programmatically/
 
 new Vue({
     el: '#app',
-    components: { Tab, Tabs, Loading }
-})
+    components: { Tab, Tabs, Loading, Listtasks },
+
+});

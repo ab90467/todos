@@ -63,7 +63,7 @@ namespace todos
             loggerFactory
                 .AddDebug()
                 .AddConsole();*/
-
+            // https://forums.asp.net/t/2124969.aspx?+No+Access+Control+Allow+Origin+header+is+present+on+the+requested+resource+error+when+IONIC+app+calls+ASP+Net+Core+Web+API
             app.UseCors("AllowAll");
             app.UseMvcWithDefaultRoute();
             app.UseMvc();
