@@ -25,7 +25,22 @@ namespace todos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                            .AllowAnyMethod()
+                                                             .AllowAnyHeader()));
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                    });
+            });*/
+            //var cors = new EnableCorsAttribute("http://www.example.com", "*", "*");
+            //services.AddCors(cors);
+            //services.AddCors(origins: "http://www.example.com", headers: "*", methods: "*")
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +59,13 @@ namespace todos
             }
 
             app.UseHttpsRedirection();
+            /*loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory
+                .AddDebug()
+                .AddConsole();*/
+
+            app.UseCors("AllowAll");
+            app.UseMvcWithDefaultRoute();
             app.UseMvc();
         }
     }

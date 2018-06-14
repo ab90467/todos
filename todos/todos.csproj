@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Remove="tutorial1.cs" />
+    <Compile Remove="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\index.html" />

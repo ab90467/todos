@@ -2,19 +2,21 @@ import axios from 'axios';
 
 (function(axios, todo) {
     //set this up right away
-    window.addEventListener('hashchange', () => {
-        //this.selectTab(window.location.hash);
-        const pageID = window.location.hash.split('#')[1];
-        console.error('ajax change tab :: ' + pageID);
-        get('myData', pageID);
-    });
+    const init = () => {
+        window.addEventListener('hashchange', () => {
+            //this.selectTab(window.location.hash);
+            const pageID = window.location.hash.split('#')[1];
+            console.error('ajax change tab :: ' + pageID);
+            get('myData', pageID);
+        });
+    }
 
     const queryGetMapping = {
-        'todolist': ':5001/api/values/listtasks'
+        'todolist': 'https://localhost:5001/api/values/listtasks'
     }
 
     const get = (elmID, queryID) => {
-        axios.get('/api/values')
+        axios.get(queryGetMapping[queryID])
             .then(function(response) {
                 console.log(response);
                 const elm = document.getElementById(id);
@@ -26,6 +28,8 @@ import axios from 'axios';
     };
 
     todo.ajax = {
-        get
+        get,
+        init
     };
+
 })(axios, window.todo = window.todo || {});
