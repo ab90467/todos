@@ -8,43 +8,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace todos.Controllers
 {
-
-  
-
+    
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values DEFAULT
-        /*[Route("api/values")]
-        [HttpGet]
-        public ActionResult<string> Get()
-        {
-            var db = new DBinterface();
-            var data = db.Get("listtasks");
-            return data;
-        }*/
 
         // GET api/list/1
         [Route("api/list/{id}")]
         [HttpGet]
         public ActionResult<string> GetTasks(String id)
         {
-            //return "api/list/{id} " + id.ToString();
-            //return "value " + id.ToString();
             var db = new DBinterface();
             var data = db.Get(id);
             return data;
         }
 
 
-        // GET api/employeedetails/id/teammember
+        // GET 
         [Route("api/user/details/{userid}")]
         [HttpGet]
         public ActionResult<string> GetUser(String userid)
         {
-            //return "api/details/user/{userid}" + userid;
             var db = new DBinterface();
-            var data = db.Get("listtasks");
+            var data = db.GetUser(userid);
             return data;
         }
 
@@ -53,7 +39,7 @@ namespace todos.Controllers
         [HttpGet]
         public ActionResult<string> GetTask(String tid)
         {
-            return "api/details/task/{tid} " + tid.ToString();
+            return "api/task/details/{tid} " + tid;
 
         }
 

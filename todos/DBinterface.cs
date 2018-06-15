@@ -122,26 +122,15 @@ class DBinterface
             return mapValue;
         }
         return "";
-    }    
-
-    //Get statement
-    public String Get(String dataRequest)
-    {
+    }
+    
+    private String getDBdata(String query){
         try
         {   
-            string query = MyQueryString(dataRequest);
-            if (query.Length == 0)
-            {
-                var error = "{ \"error\" : \"not valid query\"}";
-                return error;
-
-            }
-            
             MySqlDataAdapter ma = new MySqlDataAdapter(query, conn);
             DataSet DS = new DataSet();
             ma.Fill(DS);
             return JsonConvert.SerializeObject(DS.Tables[0], Formatting.Indented);
-
         }
         catch (MySqlException e)
         {
@@ -149,17 +138,29 @@ class DBinterface
         }
     }
 
-    /* public JsonResult test()
-     {
-         var result = new JsonResult();
-         result.Data = new
-         {
-             id = 1
-         };
-         result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-         return result;
-     }
-     */
+
+
+    //Get statement
+    public String Get(String dataRequest)
+    {
+
+            string query = MyQueryString(dataRequest);
+            if (query.Length == 0)
+            {
+                var error = "{ \"error\" : \"not valid query\", \"query\" : \""+query+"\"}";
+                return error;
+
+            }
+            return getDBdata(query);
+    }
+
+    //GET spesific user
+    public String GetUser(String userid){
+        var query = "select * from users where id = " + userid;
+        return getDBdata(query);
+    }
+
+
 
     
 /*
