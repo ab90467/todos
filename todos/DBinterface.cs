@@ -84,7 +84,8 @@ class DBinterface
         }
 
     }
-        // get correct SQL
+    
+    // resolve query based on key
     private String MyQueryString(String key)
     {
         var map = new Dictionary<string, string>();
@@ -123,36 +124,24 @@ class DBinterface
         return "";
     }    
 
-
-
-        // public DB fn ::
-
-    /*public Stream ConvertDataSetToJson(DataSet ds) { 
-        try { 
-            byte[] resultBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ds, Formatting.Indented)); 
-            //WebOperationContext.Current.OutgoingResponse.ContentType = "text/plain"; 
-            return new MemoryStream(resultBytes); 
-        } catch (Exception ex) { throw ex; } 
-    }*/
-
     //Get statement
-
     public String Get(String dataRequest)
     {
         try
-        {   string query = MyQueryString(dataRequest);
-                if (query.Length == 0)
-                {
-                    var error = "{ \"error\" : \"not valid query\"}";
-                    return error;
+        {   
+            string query = MyQueryString(dataRequest);
+            if (query.Length == 0)
+            {
+                var error = "{ \"error\" : \"not valid query\"}";
+                return error;
 
-                }
-                
+            }
+            
             MySqlDataAdapter ma = new MySqlDataAdapter(query, conn);
             DataSet DS = new DataSet();
             ma.Fill(DS);
             return JsonConvert.SerializeObject(DS.Tables[0], Formatting.Indented);
-            //return DS.Tables[0];
+
         }
         catch (MySqlException e)
         {
@@ -172,51 +161,7 @@ class DBinterface
      }
      */
 
-    //Get statement
-    public String __Get(String query)
-    {
-
-
-
-        if (OpenConnection() == true)
-        {
-            List<string[]> list = new List<string[]>();
-
-            String retVal = "";
-
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            //Create a data reader and Execute the command
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-
-            //Read the data and store them in the list
-            while (dataReader.Read())
-            {
-                String dataRecord = "";
-                //make string[] the size of the row being returned
-                string[] row = new string[dataReader.FieldCount];
-                //fill sting[] with row data
-                for (int i = 0; i < row.Length; i++)
-                {
-
-                    row[i] = dataReader[i].ToString();
-                    //System.Diagnostics.Trace.WriteLine("data " + row[i]);
-                    dataRecord += " " + row[i].ToString();
-                    //add string[] to return list
-                    list.Add(row);
-
-                }
-                log("record :" + dataRecord);
-                list.Add(row);
-                retVal += "\n" + dataRecord;
-            }
-            CloseConnection();
-            return JsonConvert.SerializeObject(list, Formatting.Indented);
-
-            //return retVal;
-        }
-        return "null";
-
-    }
+    
 /*
  axios.post('/api/save/task', {
   typeID: 33,
@@ -245,11 +190,7 @@ taskStatusID: 55,
         return "error";
         
     }      
-    public void saveTask()
 
-        {
-
-        }
 
     //Update statement
     public String UpdateTask(Task updatedTask)
@@ -265,9 +206,34 @@ taskStatusID: 55,
         return "error";
             
     }
-        public String saveUser(User newUser){
+        /*
+         axios.post('/api/save/user', {
+            name: "king kong",
+            email: "jungelen@longisland.jun",
+            position: "king over the monkeys"
+        }).then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        */
+
+    // save new user
+    public String saveUser(User newUser){
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "INSERT INTO users(name,email,position) VALUES(?name,?email,?position)";
+                cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = newUser.name;
+                cmd.Parameters.Add("?email", MySqlDbType.VarChar).Value = newUser.email;
+                cmd.Parameters.Add("?position", MySqlDbType.VarChar).Value = newUser.position;
+                cmd.ExecuteNonQuery();
+                return cmd.CommandText.ToString();
+            }
             return "error";
-        }
+    }
  
 }
 
