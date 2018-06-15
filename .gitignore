@@ -33,6 +33,8 @@ Thumbs.db
 *.dmg
 *.app
 
+*npm-debug.log.*
+
 # resharper
 *_Resharper.*
 *.Resharper

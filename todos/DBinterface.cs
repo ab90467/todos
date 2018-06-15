@@ -217,28 +217,58 @@ class DBinterface
         return "null";
 
     }
+/*
+ axios.post('/api/save/task', {
+  typeID: 33,
+userID: 44,
+taskStatusID: 55,
+  description: 'Værdens beste task'
+}).then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+*/
 
     //Insert statement
-    public void Insert()
+    public String saveTask(Task task)
     {
-    }
+        if(OpenConnection() == true){
+                string query = "insert into tasks (typeID,userID,taskStatusID,description) values ({tID},{uID},{tsID},'{desc}')";
+                query = query.Replace("{tID}", task.typeID.ToString()).Replace("{uID}", task.userID.ToString()).Replace("{tsID}", task.taskStatusID.ToString()).Replace("{desc}", task.description);
+                log(query);
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            return query;
+        }
+        return "error";
+        
+    }      
+    public void saveTask()
+
+        {
+
+        }
 
     //Update statement
-    public void Update()
+    public String UpdateTask(Task updatedTask)
     {
+        if (OpenConnection() == true)
+            {
+            string query = "update task set typeID=XX,userID=XX,taskStatusID=XX,description=XX where id=" + updatedTask.id;
+            log(query);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            return query;
+        }
+        return "error";
+            
     }
-
-    //Delete statement
-    public void Delete()
-    {
-    }
-
-
-    //Count statement
-    public int Count()
-    {
-        return 0;
-    }
+        public String saveUser(User newUser){
+            return "error";
+        }
+ 
 }
 
 }
