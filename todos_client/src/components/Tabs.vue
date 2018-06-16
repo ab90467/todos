@@ -59,11 +59,11 @@
 
         mounted() {
             window.addEventListener('hashchange', () => {
-                this.selectTab(window.location.hash);
+                this.selectTab(window.location.hash.split('/')[0]);
             })
 
             if (this.findTab(window.location.hash)) {
-                this.selectTab(window.location.hash);
+                this.selectTab(window.location.hash.split('/')[0]);
                 return;
             }
 

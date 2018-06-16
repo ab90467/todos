@@ -82,7 +82,7 @@ namespace todos.Controllers
             {
                 var db = new DBinterface();
                  var qr = db.saveUser(data);
-                return Ok("ok User: " + data.name + " -> " + data.position+ " query: " + qr);
+                return Ok("ok save user, query: " + qr);
             }
             return "";
         }

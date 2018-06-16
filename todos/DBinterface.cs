@@ -212,7 +212,7 @@ taskStatusID: 55,
          axios.post('/api/save/user', {
             name: "king kong",
             email: "jungelen@longisland.jun",
-            position: "king over the monkeys"
+            skills: "king over the monkeys"
         }).then(function (response) {
             console.log(response);
           })
@@ -227,10 +227,10 @@ taskStatusID: 55,
             {
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO users(name,email,skill) VALUES(?name,?email,?skill)";
+                cmd.CommandText = "INSERT INTO users(name,email,skills) VALUES(?name,?email,?skills)";
                 cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = newUser.name;
                 cmd.Parameters.Add("?email", MySqlDbType.VarChar).Value = newUser.email;
-                cmd.Parameters.Add("?skill", MySqlDbType.VarChar).Value = newUser.position;
+                cmd.Parameters.Add("?skills", MySqlDbType.VarChar).Value = newUser.skills;
                 cmd.ExecuteNonQuery();
                 return cmd.CommandText.ToString();
             }

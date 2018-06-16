@@ -53,7 +53,7 @@
         },
         methods: {
           getStatus(){
-            ajax.get('todolist','myData').then((data)=>{
+            ajax.getList('todolist','myData').then((data)=>{
               this.rows = data;
             })
           } 

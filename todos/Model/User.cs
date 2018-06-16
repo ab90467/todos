@@ -6,6 +6,6 @@ namespace todos
     {
         public string name { get; set; }
         public string email { get; set; }
-        public string position { get; set; }
+        public string skills { get; set; }
     }
 }

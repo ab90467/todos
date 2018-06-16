@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const self = {
 
-    get: (queryID, elmID) => {
+    getList: (queryID, elmID) => {
         return new Promise((resolve, reject) => {
             const queryGetMapping = {
                 todolist: 'https://localhost:5001/api/list/tasks',
@@ -26,6 +26,31 @@ const self = {
                 })
                 .catch(function(error) {
                     console.error(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
+    },
+    getUserDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            axios.get('https://localhost:5001/api/user/details/' + id)
+                .then(function(response) {
+                    resolve(response.data);
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
+    },
+
+    saveNewUser: (user) => {
+        return new Promise((resolve, reject) => {
+            axios.post('https://localhost:5001/api/save/user', user).then(function(response) {
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
                     reject(`ajax.get error :: ${error}`);
                 });
         });
