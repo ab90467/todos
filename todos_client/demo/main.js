@@ -8,17 +8,16 @@ import Listtasks from '../src/components/ListTasks.vue';
 import Loading from '../src/components/Loading.vue';
 
 
-
 import User from '../src/components/User.vue';
 
+//import { VTooltip } from 'v-tooltip';
+//VTooltip.options.defaultTemplate = '<div class="foo" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+/*import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
 
-//import ajax from '../src/js/ajax.js';
-//ajax.init();
-
-// https://css-tricks.com/creating-vue-js-component-instances-programmatically/
-
+Vue.directive('tooltip', VTooltip)
+Vue.directive('close-popover', VClosePopover)
+Vue.component('v-popover', VPopover)*/
 new Vue({
-    el: '#app',
-    components: { Tab, Tabs, Loading, Listtasks, User },
-
+    el: '#todoapp',
+    components: { Tab, Tabs, Loading, Listtasks, User }
 });

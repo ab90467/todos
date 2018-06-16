@@ -62,7 +62,7 @@ namespace todos.Controllers
         // POST 
         [Route("api/update/task")]
         [HttpPost]
-        public ActionResult<string> PostUser([FromBody] todos.Task data)
+        public ActionResult<string> UpdateTask([FromBody] todos.Task data)
         {
             if (ModelState.IsValid)
             {
@@ -83,6 +83,19 @@ namespace todos.Controllers
                 var db = new DBinterface();
                  var qr = db.saveUser(data);
                 return Ok("ok save user, query: " + qr);
+            }
+            return "";
+        }
+        // POST 
+        [Route("api/update/user")]
+        [HttpPost]
+        public ActionResult<string> UpdateUser([FromBody] todos.User data)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new DBinterface();
+                var qr = db.UpdateUser(data);
+                return Ok("ok update user, query: " + qr);
             }
             return "";
         }

@@ -17,11 +17,11 @@ const self = {
             }
             axios.get(queryGetMapping[queryID])
                 .then(function(response) {
-                    console.error(response);
-                    if (elmID) {
+                    //console.error(response);
+                    /*if (elmID) {
                         const elm = document.getElementById(elmID);
                         elm.innerHTML = JSON.stringify(response.data, false, 4);
-                    }
+                    }*/
                     resolve(response.data);
                 })
                 .catch(function(error) {
@@ -38,6 +38,21 @@ const self = {
                 })
                 .catch(function(error) {
                     console.error(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
+    },
+    _user: (url, user) => {
+        console.error(url, user);
+    },
+    updateUser: (user) => {
+        return new Promise((resolve, reject) => {
+            axios.post('https://localhost:5001/api/update/user', user).then(function(response) {
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
                     reject(`ajax.get error :: ${error}`);
                 });
         });

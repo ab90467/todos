@@ -93,9 +93,9 @@ class DBinterface
         map.Add("tasks", @" 
             select
               a.id,
-              a.description as 'tasktype',
+              b.value as 'tasktype',
               d.status as 'status',
-              b.description as 'descr',
+              a.description as 'descr',
               c.name as 'user'
             from
               tasks as a,
@@ -236,7 +236,20 @@ taskStatusID: 55,
             }
             return "error";
     }
- 
+
+    public String UpdateUser(User updatedUser)
+    {
+        if (OpenConnection() == true)
+        {
+                string query = "update users set name='"+updatedUser.name+"',email='" + updatedUser.email + "',skills='" + updatedUser.skills + "' where id='" + updatedUser.id +"'";
+            log(query);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.ExecuteNonQuery();
+            return query;
+        }
+        return "error";
+
+    } 
 }
 
 }

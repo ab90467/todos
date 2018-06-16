@@ -18,14 +18,20 @@ export default {
   },
   data() {
     return {
-      model: {             
+      model: {  
+        id : "",           
         uname: "",
         email: "",
         skills: ""
       },
       schema: {
         fields: [
-        {
+          {
+          type: "input",
+          inputType: "hidden",
+          model: "id",
+          placeholder: "id"
+        },{
           type: "input",
           inputType: "text",
           label: "Name",
@@ -57,16 +63,29 @@ export default {
           buttonText : "Save user",
           validateBeforeSubmit: true,
           onSubmit(model, schema) {
-            console.log("Form submitted!");
-            ajax.saveNewUser({
-              name : model.uname,
-              email : model.email,
-              skills : model.skills
-            }).then((resp) =>{
-                console.error('done data: ajax.saveUser() :: '+JSON.stringify(resp));
+            // console.log("Form submitted! ");
+            // native check -should be able to hook into form generator validation status...
+            if(model.uname === "" || model.email === "" || model.skills === ""){
+              return;
+            }
+            ajax[`${(model.id !== "0") ? 'updateUser' : 'saveNewUser'}`]((()=>{
+                let obj = {
+                    name : model.uname,
+                    email : model.email,
+                    skills : model.skills
+                  }
+                if(model.id !== "0"){
+                  obj.id = model.id;
+                }
+                return obj;
+              })()
+            ).then((resp) =>{
+                //console.error('done data: ajax.saveUser() :: '+JSON.stringify(resp));
+                model.id = "";
                 model.uname = "";
                 model.email = "";
                 model.skills = "";
+                window.location.hash ="todolist";
             });
           },
           styleClasses: "half-width",
@@ -79,47 +98,40 @@ export default {
       },
       formOptions: {
         //validateAfterLoad: true,
-        //validateAfterChanged: true,
+        validateAfterChanged: true,
         fieldIdPrefix: 'user-'
       }
     }
   },
   created() {
-    console.error('user schema created!', this);
     const hashFunc = ()=>{
       const hash = window.location.hash.split('/')[0];
-        if(hash !==  '#user'){
+      if(hash !==  '#user'){
           return;
-        }
-          const userID = window.location.hash.split('/')[1];
-          
-          if(userID && userID  !== "0"){
-            const that = this;
-            ajax.getUserDetails(userID).then((resp) =>{
-                console.error('done data: ajax.getUserDetails() '+userID+' :: '+JSON.stringify(resp));
-                that.model.uname = resp[0].name;
-                that.model.email = resp[0].email;
-                that.model.skills = resp[0].skill;
-
-            });
-          }else{
-            this.model.uname = "";
-                this.model.email = "";
-                this.model.skills = "";
-                this.errors = 0;
-          }
       }
-      window.addEventListener('hashchange', () => {
-        hashFunc()
-      });
-      hashFunc();
-    },
-    methods : {
-      validateAndSendContent : () => {
-        // https://www.bountysource.com/issues/45902231-submit-form-on-keyup-keydown
-        console.error('validate!' ,this.model, this.schema)
-
+      const userID = window.location.hash.split('/')[1];
+      
+      if(userID && userID  !== "0"){
+        const that = this;
+        ajax.getUserDetails(userID).then((resp) =>{
+            console.error('done data: ajax.getUserDetails() '+userID+' :: '+JSON.stringify(resp));
+            that.model.id = resp[0].id;
+            that.model.uname = resp[0].name;
+            that.model.email = resp[0].email;
+            that.model.skills = resp[0].skills;
+        });
+      }else{
+        this.model.id = "0";
+        this.model.uname = "";
+        this.model.email = "";
+        this.model.skills = "";
+        this.errors = 0;
+      }
     }
+    window.addEventListener('hashchange', () => {
+      hashFunc()
+    });
+    hashFunc();
   }
 }
 /*

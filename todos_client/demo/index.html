@@ -10,15 +10,18 @@
 </head>
 
 <body>
-    <div id="app__"></div>
 
-    <div id="app">
+    <div id="todoapp">
+
         <tabs>
             <tab id="todolist" name="Todos">
 
                 <listtasks></listtasks>
 
-                <a href="#task/0">New task</a> | <a href="#user/0">New user</a> | <a href="#user/2">user ID 2</a>
+                <div style="padding:10px 0 0 20px">
+                    <a href="#task/0">New task</a> | <a href="#user/0">New user</a> | <a href="#user/2">user ID 2</a>
+                </div>
+
 
             </tab>
             <tab id="task" name="Tasks">
@@ -35,7 +38,7 @@
     <!--loading v-bind:label="laster">
         </loading-->
 
-    <div id="myData">DATA HER</div>
+    <div id="myData"></div>
 
     <script src="./bundle.js"></script>
 </body>
