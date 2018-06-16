@@ -13,7 +13,7 @@ namespace todos.Controllers
     public class ValuesController : ControllerBase
     {
 
-        // GET api/list/1
+        // GET 
         [Route("api/list/{id}")]
         [HttpGet]
         public ActionResult<string> GetTasks(String id)
@@ -29,6 +29,7 @@ namespace todos.Controllers
         [HttpGet]
         public ActionResult<string> GetUser(String userid)
         {
+
             var db = new DBinterface();
             var data = db.GetUser(userid);
             return data;
@@ -39,7 +40,7 @@ namespace todos.Controllers
         [HttpGet]
         public ActionResult<string> GetTask(String tid)
         {
-            return "api/task/details/{tid} " + tid;
+            return "Not implemented yet:  api/task/details/{tid} " + tid;
 
         }
 

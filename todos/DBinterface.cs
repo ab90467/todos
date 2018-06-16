@@ -90,12 +90,13 @@ class DBinterface
     {
         var map = new Dictionary<string, string>();
 
-        map.Add("listtasks", @" 
+        map.Add("tasks", @" 
             select
-              a.description as 'todo task desc',
-              d.status as 'task status',
-              b.description as 'task descr',
-              c.name as 'todo doer'
+              a.id,
+              a.description as 'tasktype',
+              d.status as 'status',
+              b.description as 'descr',
+              c.name as 'user'
             from
               tasks as a,
               tasktype as b,
@@ -105,15 +106,15 @@ class DBinterface
               a.typeID = b.id
               and a.userID = c.id
               and a.taskStatusID = d.id
-            order by c.name asc
+            order by d.status desc
         ");
-        map.Add("listusers", @"
+        map.Add("users", @"
             Select * from users order by name asc          
         ");
-        map.Add("liststatus", @"
+        map.Add("status", @"
             Select * from taskStatus order by status asc          
         ");
-        map.Add("listtasktype", @"
+        map.Add("tasktypes", @"
             Select * from taskType order by value asc          
         ");
         string mapValue;
@@ -226,10 +227,10 @@ taskStatusID: 55,
             {
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO users(name,email,position) VALUES(?name,?email,?position)";
+                cmd.CommandText = "INSERT INTO users(name,email,skill) VALUES(?name,?email,?skill)";
                 cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = newUser.name;
                 cmd.Parameters.Add("?email", MySqlDbType.VarChar).Value = newUser.email;
-                cmd.Parameters.Add("?position", MySqlDbType.VarChar).Value = newUser.position;
+                cmd.Parameters.Add("?skill", MySqlDbType.VarChar).Value = newUser.position;
                 cmd.ExecuteNonQuery();
                 return cmd.CommandText.ToString();
             }

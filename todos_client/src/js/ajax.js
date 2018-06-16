@@ -3,26 +3,32 @@ import axios from 'axios';
 
 const self = {
 
-    get: (elmID, queryID) => {
-        const queryGetMapping = {
-            todolist: 'https://localhost:5001/api/values/listtasks',
-            tasklist: 'https://localhost:5001/api/values/listtasktype',
-            userlist: 'https://localhost:5001/api/values/listusers',
-        };
-        // console.error(elmID, queryID, queryGetMapping[queryID], axios)
-        if (!queryGetMapping[queryID]) {
-            return;
-        }
-        axios.get(queryGetMapping[queryID])
-            .then(function(response) {
-                console.error(response);
-                const elm = document.getElementById(elmID);
-                elm.innerHTML = JSON.stringify(response.data, false, 4);
-                return response.data;
-            })
-            .catch(function(error) {
-                console.error(error);
-            });
+    get: (queryID, elmID) => {
+        return new Promise((resolve, reject) => {
+            const queryGetMapping = {
+                todolist: 'https://localhost:5001/api/list/tasks',
+                userlist: 'https://localhost:5001/api/list/users',
+                statuslist: 'https://localhost:5001/api/list/status',
+                tasktypelist: 'https://localhost:5001/api/list/tasktypes',
+            };
+            // console.error(elmID, queryID, queryGetMapping[queryID], axios)
+            if (!queryGetMapping[queryID]) {
+                reject(`ajax.get error :: invalid query : ${queryID}`);
+            }
+            axios.get(queryGetMapping[queryID])
+                .then(function(response) {
+                    console.error(response);
+                    if (elmID) {
+                        const elm = document.getElementById(elmID);
+                        elm.innerHTML = JSON.stringify(response.data, false, 4);
+                    }
+                    resolve(response.data);
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
     },
 
     init: () => {

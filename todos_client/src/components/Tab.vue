@@ -1,3 +1,4 @@
+<!--https://github.com/spatie/vue-tabs-component-->
 <template>
     <section v-show="isActive"
              :aria-hidden="! isActive"

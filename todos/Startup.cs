@@ -42,6 +42,7 @@ namespace todos
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
             else
             {
