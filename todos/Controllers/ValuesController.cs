@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// https://nodogmablog.bryanhogan.net/2016/01/asp-net-5-web-api-controller-with-multiple-get-methods/
 
 namespace todos.Controllers
 {
@@ -36,11 +35,13 @@ namespace todos.Controllers
         }
 
         // GET 
-        [Route("api/task/details/{tid}")]
+        [Route("api/task/user/{tid}")]
         [HttpGet]
         public ActionResult<string> GetTask(String tid)
         {
-            return "Not implemented yet:  api/task/details/{tid} " + tid;
+            
+            var db = new DBinterface();
+            return db.GetTaskForSpesificUser(tid);
 
         }
 

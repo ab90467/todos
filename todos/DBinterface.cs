@@ -75,13 +75,14 @@ class DBinterface
     {
         var map = new Dictionary<string, string>();
 
-        map.Add("tasks", @" 
+            var mainListQuery = @" 
             select
               a.id,
               b.value as 'tasktype',
               d.status as 'status',
               a.description as 'descr',
-              c.name as 'user'
+              c.name as 'user',
+              c.id as 'userId'
             from
               tasks as a,
               tasktype as b,
@@ -90,9 +91,10 @@ class DBinterface
             where
               a.typeID = b.id
               and a.userID = c.id
-              and a.taskStatusID = d.id
-            order by d.status desc
-        ");
+              and a.taskStatusID = d.id";
+            
+            map.Add("_mainQuery_", mainListQuery);
+            map.Add("tasks", mainListQuery + " order by d.status desc");
         map.Add("users", @"
             Select * from users order by name asc          
         ");
@@ -130,24 +132,26 @@ class DBinterface
     public String Get(String dataRequest)
     {
 
-            string query = MyQueryString(dataRequest);
-            if (query.Length == 0)
-            {
-                var error = "{ \"error\" : \"not valid query\", \"query\" : \""+query+"\"}";
-                return error;
+        string query = MyQueryString(dataRequest);
+        if (query.Length == 0)
+        {
+            var error = "{ \"error\" : \"not valid query\", \"query\" : \""+query+"\"}";
+            return error;
 
-            }
-            return getDBdata(query);
-    }
-
-    //GET spesific user
-    public String GetUser(String userid){
-        var query = "select * from users where id = " + userid;
+        }
         return getDBdata(query);
     }
 
+    // TASK
+    //Get 
+    public String GetTaskForSpesificUser(String Id)
+    {
 
-    //Insert statement
+            string query = MyQueryString("_mainQuery_") + " and c.id =" + Id;
+        return getDBdata(query);
+    }
+
+    //Insert 
     public String saveTask(Task task)
     {
         if(OpenConnection() == true){
@@ -163,7 +167,7 @@ class DBinterface
     }      
 
 
-    //Update statement
+    //Update 
     public String UpdateTask(Task updatedTask)
     {
         if (OpenConnection() == true)
@@ -177,24 +181,33 @@ class DBinterface
         return "error";
             
     }
+    //USER
 
-
-    // save new user
-    public String saveUser(User newUser){
-            if (OpenConnection() == true)
-            {
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO users(name,email,skills) VALUES(?name,?email,?skills)";
-                cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = newUser.name;
-                cmd.Parameters.Add("?email", MySqlDbType.VarChar).Value = newUser.email;
-                cmd.Parameters.Add("?skills", MySqlDbType.VarChar).Value = newUser.skills;
-                cmd.ExecuteNonQuery();
-                return cmd.CommandText.ToString();
-            }
-            return "error";
+    //GET spesific user
+    public String GetUser(String userid)
+    {
+        var query = "select * from users where id = " + userid;
+        return getDBdata(query);
     }
 
+    // save new user
+    public String saveUser(User newUser)
+    {
+
+        if (OpenConnection() == true)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "INSERT INTO users(name,email,skills) VALUES(?name,?email,?skills)";
+            cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = newUser.name;
+            cmd.Parameters.Add("?email", MySqlDbType.VarChar).Value = newUser.email;
+            cmd.Parameters.Add("?skills", MySqlDbType.VarChar).Value = newUser.skills;
+            cmd.ExecuteNonQuery();
+            return cmd.CommandText.ToString();
+        }
+        return "error";
+    }
+    //update
     public String UpdateUser(User updatedUser)
     {
         if (OpenConnection() == true)

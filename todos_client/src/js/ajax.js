@@ -3,6 +3,10 @@ import axios from 'axios';
 
 const self = {
 
+    _get: (url) => {
+        console.error(url);
+    },
+
     getList: (queryID, elmID) => {
         return new Promise((resolve, reject) => {
             const queryGetMapping = {
@@ -17,11 +21,6 @@ const self = {
             }
             axios.get(queryGetMapping[queryID])
                 .then(function(response) {
-                    //console.error(response);
-                    /*if (elmID) {
-                        const elm = document.getElementById(elmID);
-                        elm.innerHTML = JSON.stringify(response.data, false, 4);
-                    }*/
                     resolve(response.data);
                 })
                 .catch(function(error) {
@@ -30,6 +29,21 @@ const self = {
                 });
         });
     },
+
+    getTasksOnSpesificUser: (id) => {
+
+        return new Promise((resolve, reject) => {
+            axios.get("https://localhost:5001/api/task/user/" + id)
+                .then(function(response) {
+                    resolve(response.data);
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
+    },
+
     getUserDetails: (id) => {
         return new Promise((resolve, reject) => {
             axios.get('https://localhost:5001/api/user/details/' + id)

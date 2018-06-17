@@ -114,7 +114,7 @@ export default {
       if(userID && userID  !== "0"){
         const that = this;
         ajax.getUserDetails(userID).then((resp) =>{
-            console.error('done data: ajax.getUserDetails() '+userID+' :: '+JSON.stringify(resp));
+            
             that.model.id = resp[0].id;
             that.model.uname = resp[0].name;
             that.model.email = resp[0].email;
