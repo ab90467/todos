@@ -171,12 +171,14 @@ class DBinterface
     }      
 
 
+
     //Update 
     public String UpdateTask(Task updatedTask)
     {
         if (OpenConnection() == true)
-            {
-            string query = "update task set typeID=XX,userID=XX,taskStatusID=XX,description=XX where id=" + updatedTask.id;
+        {
+            
+            string query = "update tasks set typeID='"+updatedTask.typeID+"',userID='" + updatedTask.userID + "',taskStatusID='" + updatedTask.taskStatusID + "', description='"+updatedTask.description+"' where id='" + updatedTask.id +"'";
             log(query);
             MySqlCommand cmd = new MySqlCommand(query, conn);
             cmd.ExecuteNonQuery();
@@ -217,8 +219,8 @@ class DBinterface
     {
         if (OpenConnection() == true)
         {
-                string query = "update users set name='"+updatedUser.name+"',email='" + updatedUser.email + "',skills='" + updatedUser.skills + "' where id='" + updatedUser.id +"'";
-            log(query);
+            string query = "update users set name='"+updatedUser.name+"',email='" + updatedUser.email + "',skills='" + updatedUser.skills + "' where id='" + updatedUser.id +"'";
+            //log(query);
             MySqlCommand cmd = new MySqlCommand(query, conn);
             cmd.ExecuteNonQuery();
             return query;

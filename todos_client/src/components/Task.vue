@@ -29,7 +29,7 @@ export default {
         fields: [
           {
           type: "input",
-          inputType: "text",
+          inputType: "hidden",
           model: "id",
           placeholder: "id"
         },{
@@ -37,13 +37,18 @@ export default {
           values : [],
           label: "Status of task",
           model: "taskstatus",
-          required: true
+          required: true,
+          disabled() {
+            return (this.model.id == 0)
+          },
+          styleClasses:'col-md-7'
         },{
           type: "select",
           values : [],
           label: "Type of task",
           model: "tasktype",
-          required: true
+          required: true,
+          styleClasses:'col-md-7'
         },{
           type: "input",
           inputType: "text",
@@ -51,45 +56,51 @@ export default {
           model: "descr",
           placeholder: "Description of new task",
           validator: VueFormGenerator.validators.string,
-          required: true
+          required: true,
+          styleClasses:'col-md-7'
         },{
           type: "select",
           values : [],
           label: "Assign user",
           model: "user",
-          required: true        
+          required: true,
+          styleClasses:'col-md-7',
+          selectOptions: {
+    hideNoneSelectedText: true,
+  }       
         },{
           type : "submit",
           //onSubmit : this.validateAndSendContent,
           buttonText : "Save task",
           validateBeforeSubmit: true,
           onSubmit(model, schema) {
-            // console.log("Form submitted! ");
+            console.log("Form submitted! ", this);
             // native check -should be able to hook into form generator validation status...
-            if(model.uname === "" || model.email === "" || model.skills === ""){
+            if(model.descr === "" || model.taskstatus === 0 || model.tasktype === 0 || model.user === 0  ){
               return;
             }
-            ajax[`${(model.id !== "0") ? 'updateUser' : 'saveNewUser'}`]((()=>{
+            ajax[`${(model.id !== "0") ? 'updateTask' : 'saveNewTask'}`]((()=>{
                 let obj = {
-                    name : model.uname,
-                    email : model.email,
-                    skills : model.skills
-                  }
+                  taskStatusID : model.taskstatus,
+                  typeID : model.tasktype,
+                  description : model.descr,
+                  userID : model.user
+                }
                 if(model.id !== "0"){
                   obj.id = model.id;
                 }
                 return obj;
               })()
             ).then((resp) =>{
-                //console.error('done data: ajax.saveUser() :: '+JSON.stringify(resp));
-                model.id = "";
-                model.uname = "";
-                model.email = "";
-                model.skills = "";
+                model.id = "0";
+                model.descr = "";          
+                model.taskstatus = 1;
+                model.tasktype = 0;
+                model.user = 0;
                 window.location.hash ="todolist";
             });
           },
-          styleClasses: "half-width",
+          styleClasses:'col-md-8'
           /*disabled() {
             return false;
             console.log("Disabled: ", this.errors.length > 0);
@@ -100,13 +111,12 @@ export default {
       formOptions: {
         //validateAfterLoad: true,
         validateAfterChanged: true,
-        fieldIdPrefix: 'user-'
+        fieldIdPrefix: 'task-'
       }
     }
   },
   created() {
     const data = this.schema.fields;
-    console.error(data.find(field => field.model === 'user').label);
     ajax.getList('userlist').then((resp) =>{
       data.find(field => field.model === 'user').values = resp;
     });
@@ -116,41 +126,45 @@ export default {
     ajax.getList('statuslist').then((resp) =>{
       data.find(field => field.model === 'taskstatus').values = resp;
     });
-    ajax.getTaskWithSpesificId(3).then((resp)=>{
-      console.error(JSON.stringify(resp,false,4));
-      /*
-      LAGE EDIT TASK!
-      id : 0,           
-        taskstatus: 1,
-        tasktype: 0,
-        descr: "",
-        user: 0*/
-    })
-    const hashFunc = ()=>{
+    const clearFields = () =>{
+      const m = this.model;
+      m.id = "0";
+      m.descr = "";          
+      m.taskstatus = 1;
+      m.tasktype = 0;
+      m.user = 0;
+      data.find(field => field.type === 'submit').buttonText = "Save task";
+    }
+    const hashChangeAction = () => {
       const hash = window.location.hash.split('/')[0];
-      if(hash !==  '#user'){
+      if(hash !==  '#task'){
           return;
       }
-      const userID = window.location.hash.split('/')[1];
+      const taskId = window.location.hash.split('/')[1];
       
-      if(userID && userID  !== "0"){
-        const that = this;
-        ajax.getUserDetails(userID).then((resp) =>{
-            
-            that.model.id = resp[0].id;
-            that.model.uname = resp[0].name;
-            that.model.email = resp[0].email;
-            that.model.skills = resp[0].skills;
+      if(taskId && taskId  !== "0"){
+        const m = this.model;
+        ajax.getTaskWithSpesificId(taskId).then((resp)=>{
+          const d = (typeof resp[0] === "object") ?  resp[0] :false;
+          if(!d){
+            clearFields();
+            return;
+          }
+          m.id = d.id;          
+          m.taskstatus = d.taskStatusID;
+          m.tasktype = d.typeID;
+          m.descr = d.description;
+          m.user = d.userID;
+          data.find(field => field.type === 'submit').buttonText = "Change task";
         });
       }else{
-        this.model.id = "0";
-        this.model.descr = "";
+        clearFields();
       }
     }
-    /*window.addEventListener('hashchange', () => {
-      hashFunc()
+    hashChangeAction();
+    window.addEventListener('hashchange', () => {
+      hashChangeAction();
     });
-    hashFunc();*/
   }
 }
 /*

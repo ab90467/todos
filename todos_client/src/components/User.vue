@@ -38,7 +38,8 @@ export default {
           model: "uname",
           placeholder: "User name",
           validator: VueFormGenerator.validators.string,
-          required: true
+          required: true,
+          styleClasses:'col-md-7'
         },{
           type: "input",
           inputType: "email",
@@ -46,7 +47,8 @@ export default {
           model: "email",
           placeholder: "User's e-mail address",
           validator: VueFormGenerator.validators.email,
-          required: true
+          required: true,
+          styleClasses:'col-md-7'
         },{
           type: "input",
           inputType: "text",
@@ -55,8 +57,8 @@ export default {
           placeholder: "Users speciality",
           validator: "string",
           validator: VueFormGenerator.validators.string,
-          required: true
-        
+          required: true,
+          styleClasses:'col-md-7'
         },{
           type : "submit",
           //onSubmit : this.validateAndSendContent,
@@ -85,10 +87,11 @@ export default {
                 model.uname = "";
                 model.email = "";
                 model.skills = "";
+                //schema.fields.find(field => field.type === 'submit').buttonText = "Save user";
                 window.location.hash ="todolist";
             });
           },
-          styleClasses: "half-width",
+          styleClasses:'col-md-7'
           /*disabled() {
             return false;
             console.log("Disabled: ", this.errors.length > 0);
@@ -119,6 +122,7 @@ export default {
             that.model.uname = resp[0].name;
             that.model.email = resp[0].email;
             that.model.skills = resp[0].skills;
+            that.schema.fields.find(field => field.type === 'submit').buttonText = "Change user";
         });
       }else{
         this.model.id = "0";
@@ -126,6 +130,7 @@ export default {
         this.model.email = "";
         this.model.skills = "";
         this.errors = 0;
+        this.schema.fields.find(field => field.type === 'submit').buttonText = "Save user";
       }
     }
     window.addEventListener('hashchange', () => {

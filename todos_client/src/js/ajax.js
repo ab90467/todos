@@ -2,9 +2,8 @@ import axios from 'axios';
 
 
 const self = {
-
+    // common GET
     _get: (url) => {
-        console.error(url);
         return new Promise((resolve, reject) => {
             axios.get(url)
                 .then(function(response) {
@@ -17,6 +16,22 @@ const self = {
         });
     },
 
+    // common POST
+    _post: (url, data) => {
+        console.error(url, data);
+        return new Promise((resolve, reject) => {
+            axios.post(url, data).then(function(response) {
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    reject(`ajax.get error :: ${error}`);
+                });
+        });
+    },
+
+    //GET list
     getList: (queryID, elmID) => {
         return new Promise((resolve, reject) => {
             const queryGetMapping = {
@@ -51,42 +66,25 @@ const self = {
         return self._get('https://localhost:5001/api/user/details/' + id);
 
     },
-    _post: (url, data) => {
-        console.error(url, data);
-    },
+
+    // POST user data 
     updateUser: (user) => {
-        return new Promise((resolve, reject) => {
-            axios.post('https://localhost:5001/api/update/user', user).then(function(response) {
-                    console.log(response);
-                    resolve(response);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    reject(`ajax.get error :: ${error}`);
-                });
-        });
+        return self._post('https://localhost:5001/api/update/user', user);
     },
 
     saveNewUser: (user) => {
-        return new Promise((resolve, reject) => {
-            axios.post('https://localhost:5001/api/save/user', user).then(function(response) {
-                    console.log(response);
-                    resolve(response);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    reject(`ajax.get error :: ${error}`);
-                });
-        });
+        return self._post('https://localhost:5001/api/save/user', user);
+    },
+
+
+    // POST task data 
+    updateTask: (task) => {
+        return self._post('https://localhost:5001/api/update/task', task);
+    },
+
+    saveNewTask: (task) => {
+        return self._post('https://localhost:5001/api/save/task', task);
     }
 
-    /*init: () => {
-        window.addEventListener('hashchange', () => {
-            //this.selectTab(window.location.hash);
-            const pageID = window.location.hash.split('#')[1];
-            console.error('ajax change tab :: ' + pageID);
-            self.get('myData', pageID);
-        });
-    },*/
 }
 export default self;
