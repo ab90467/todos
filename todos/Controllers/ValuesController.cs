@@ -12,7 +12,7 @@ namespace todos.Controllers
     public class ValuesController : ControllerBase
     {
 
-        // GET 
+        // GET -generic lists
         [Route("api/list/{id}")]
         [HttpGet]
         public ActionResult<string> GetTasks(String id)
@@ -23,7 +23,7 @@ namespace todos.Controllers
         }
 
 
-        // GET 
+        // GET details for spesific user
         [Route("api/user/details/{userid}")]
         [HttpGet]
         public ActionResult<string> GetUser(String userid)
@@ -34,16 +34,28 @@ namespace todos.Controllers
             return data;
         }
 
-        // GET 
-        [Route("api/task/user/{tid}")]
+
+        //GET -spesific task matching ID
+        [Route("api/task/details/{taskid}")]
         [HttpGet]
-        public ActionResult<string> GetTask(String tid)
+        public ActionResult<string> GetTaskUsingId(String taskid)
         {
             
             var db = new DBinterface();
-            return db.GetTaskForSpesificUser(tid);
+            return db.GetTaskWithSpesificId(taskid);
 
         }
+
+        // GET -task for spesific user 
+        [Route("api/task/user/{userId}")]
+        [HttpGet]
+        public ActionResult<string> getTaskForUser(String userId)
+        {
+            var db = new DBinterface();
+            return db.GetTaskForSpesificUser(userId);
+
+        }
+
 
         // POST 
         [Route("api/save/task")]

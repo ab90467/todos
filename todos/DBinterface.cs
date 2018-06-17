@@ -18,9 +18,11 @@ class DBinterface
 {
     private MySqlConnection conn;
 
+        public object Select { get; private set; }
 
-    //Constructor
-    public DBinterface()
+
+        //Constructor
+        public DBinterface()
     {
         log("DBinterface :: Connecting to MySQL DB");
 
@@ -75,7 +77,7 @@ class DBinterface
     {
         var map = new Dictionary<string, string>();
 
-            var mainListQuery = @" 
+        var mainListQuery = @" 
             select
               a.id,
               b.value as 'tasktype',
@@ -92,18 +94,13 @@ class DBinterface
               a.typeID = b.id
               and a.userID = c.id
               and a.taskStatusID = d.id";
-            
-            map.Add("_mainQuery_", mainListQuery);
-            map.Add("tasks", mainListQuery + " order by d.status desc");
-        map.Add("users", @"
-            Select * from users order by name asc          
-        ");
-        map.Add("status", @"
-            Select * from taskStatus order by status asc          
-        ");
-        map.Add("tasktypes", @"
-            Select * from taskType order by value asc          
-        ");
+        
+        map.Add("_mainQuery_", mainListQuery);
+        map.Add("tasks", mainListQuery + " order by d.status desc");
+        map.Add("users", "Select id, name from users order by name asc");
+        map.Add("status", "Select id, status as 'name' from taskStatus order by status desc");
+        map.Add("tasktypes", "Select id, value as 'name' from taskType order by value asc");
+
         string mapValue;
         if (map.TryGetValue(key, out mapValue))
         {
@@ -128,7 +125,7 @@ class DBinterface
 
 
 
-    //Get statement
+    //Get generic
     public String Get(String dataRequest)
     {
 
@@ -143,11 +140,18 @@ class DBinterface
     }
 
     // TASK
+
     //Get 
+    public String GetTaskWithSpesificId(String Id)
+    {
+        string query = "select * from tasks where id=" + Id;
+        return getDBdata(query);
+    }
+
     public String GetTaskForSpesificUser(String Id)
     {
-
-            string query = MyQueryString("_mainQuery_") + " and c.id =" + Id;
+        string query = MyQueryString("_mainQuery_") + " and c.id =" + Id;
+            log(query);
         return getDBdata(query);
     }
 
@@ -155,10 +159,10 @@ class DBinterface
     public String saveTask(Task task)
     {
         if(OpenConnection() == true){
-                string query = "insert into tasks (typeID,userID,taskStatusID,description) values ({tID},{uID},{tsID},'{desc}')";
-                query = query.Replace("{tID}", task.typeID.ToString()).Replace("{uID}", task.userID.ToString()).Replace("{tsID}", task.taskStatusID.ToString()).Replace("{desc}", task.description);
-                log(query);
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+            string query = "insert into tasks (typeID,userID,taskStatusID,description) values ({tID},{uID},{tsID},'{desc}')";
+            query = query.Replace("{tID}", task.typeID.ToString()).Replace("{uID}", task.userID.ToString()).Replace("{tsID}", task.taskStatusID.ToString()).Replace("{desc}", task.description);
+            log(query);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
             cmd.ExecuteNonQuery();
             return query;
         }
@@ -181,6 +185,7 @@ class DBinterface
         return "error";
             
     }
+
     //USER
 
     //GET spesific user
@@ -221,6 +226,5 @@ class DBinterface
         return "error";
 
     } 
-}
-
+ }
 }

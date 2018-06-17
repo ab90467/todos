@@ -105,10 +105,12 @@
 </script>
 
 <style scoped>
-    @import 'listTasks.scss';
+    @import '../css/listTasks.scss';
  
   </style>
   <style>
+  /*todo move this to app.vue*/
+   @import '../css/bootstrap.css';
   .-unsortable > span.data-tablee-icon {
       display:none;
   }
