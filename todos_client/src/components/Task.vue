@@ -64,21 +64,20 @@ export default {
           label: "Assign user",
           model: "user",
           required: true,
-          styleClasses:'col-md-7',
-          selectOptions: {
-    hideNoneSelectedText: true,
-  }       
+          styleClasses:'col-md-7'     
         },{
           type : "submit",
           //onSubmit : this.validateAndSendContent,
           buttonText : "Save task",
           validateBeforeSubmit: true,
           onSubmit(model, schema) {
+            
             console.log("Form submitted! ", this);
             // native check -should be able to hook into form generator validation status...
             if(model.descr === "" || model.taskstatus === 0 || model.tasktype === 0 || model.user === 0  ){
               return;
             }
+            //let l= this.$loading.show();
             ajax[`${(model.id !== "0") ? 'updateTask' : 'saveNewTask'}`]((()=>{
                 let obj = {
                   taskStatusID : model.taskstatus,
@@ -98,15 +97,16 @@ export default {
                 model.tasktype = 0;
                 model.user = 0;
                 window.location.hash ="todolist";
+                //l.hide();
             });
           },
-          styleClasses:'col-md-8'
+          styleClasses:'col-md-7'
           /*disabled() {
             return false;
             console.log("Disabled: ", this.errors.length > 0);
             return this.errors.length > 0;
           }*/
-        }]  
+          }]  
       },
       formOptions: {
         //validateAfterLoad: true,
@@ -116,6 +116,7 @@ export default {
     }
   },
   created() {
+    
     const data = this.schema.fields;
     ajax.getList('userlist').then((resp) =>{
       data.find(field => field.model === 'user').values = resp;
@@ -134,18 +135,21 @@ export default {
       m.tasktype = 0;
       m.user = 0;
       data.find(field => field.type === 'submit').buttonText = "Save task";
+      
     }
     const hashChangeAction = () => {
       const hash = window.location.hash.split('/')[0];
       if(hash !==  '#task'){
           return;
       }
+      let l= this.$loading.show();
       const taskId = window.location.hash.split('/')[1];
       
       if(taskId && taskId  !== "0"){
         const m = this.model;
         ajax.getTaskWithSpesificId(taskId).then((resp)=>{
           const d = (typeof resp[0] === "object") ?  resp[0] :false;
+          
           if(!d){
             clearFields();
             return;
@@ -156,8 +160,10 @@ export default {
           m.descr = d.description;
           m.user = d.userID;
           data.find(field => field.type === 'submit').buttonText = "Change task";
+          l.hide();
         });
       }else{
+        l.hide();
         clearFields();
       }
     }

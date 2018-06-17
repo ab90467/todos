@@ -29,6 +29,7 @@
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-preset-es2015": "^6.0.0",
+    "bp-vuejs-dropdown": "^2.1.1",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
     "ignore-loader": "^0.1.2",
@@ -50,6 +51,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
     "vue-data-tablee": "^0.12.1",
+    "vue-loading-overlay": "^2.0.4",
     "vue-tabs-component": "^1.4.0"
   }
 }

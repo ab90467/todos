@@ -37,7 +37,8 @@ module.exports = {
             { test: /\.ttf$/, loader: 'ignore-loader' },
             { test: /\.eot$/, loader: 'ignore-loader' },
             { test: /\.svg$/, loader: 'ignore-loader' },
-            { test: /\.woff|\.woff2$/i, loader: 'ignore-loader' }
+            { test: /\.woff|\.woff2$/i, loader: 'ignore-loader' },
+            { test: /\.css$/, loader: 'ignore-loader' }
 
         ]
     }

@@ -10,6 +10,8 @@
 
 <body>
 
+    <h1>TODO</h1>
+
     <div id="todoapp">
 
         <tabs>
@@ -28,36 +30,32 @@
                 <Task></Task>
 
                 <div style="padding:10px 0 0 20px">
-                    <a href="#todolist">Todos</a> | <a href="#user/0">New user</a>
+                    <a title="go back to overview page" href="#todolist">Dismiss and go back to Todos overview</a> | <a href="#user/0">New user</a>
                 </div>
 
             </tab>
             <tab id="user" name="User">
                 <User></User>
                 <div style="padding:10px 0 0 20px">
-                    <a href="#todolist">Todos</a> | <a href="#task/0">New task</a>
+                    <a title="go back to overview page" href="#todolist">Dismiss and go back to Todos overview</a> | <a href="#task/0">New task</a>
                 </div>
             </tab>
         </tabs>
-        <p>todolist for meg</p>
-        <ul>
-            <li>ny og edit task siden</li>
-            <li>drop down menu</li>
-            <li>tilbakelink på 'user-report'</li>
-            <li>accessebility -titler etc</li>
-            <li>refaktor så dialog ref ikke er med -app.js tilbake på plass</li>
-            <li>implementer loader -evnt fjerne kode</li>
-            <li>fjerne browser start når c# app bygges</li>
-            <li>footer</li>
-            <li>pwa</li>
-        </ul>
     </div>
-    <!--loading v-bind:label="laster">
-        </loading-->
-
-    <div id="myData"></div>
 
     <script src="./bundle.js"></script>
 </body>
+
+<p>todolist for meg</p>
+<ul>
+    <li>validering før submit !!</li>
+
+    <li>accessebility -titler etc</li>
+    <li>refaktor så dialog ref ikke er med -app.js tilbake på plass</li>
+
+    <li>fjerne browser start når c# app bygges</li>
+    <li>footer</li>
+    <li>pwa</li>
+</ul>
 
 </html>
