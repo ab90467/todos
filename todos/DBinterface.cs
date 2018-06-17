@@ -11,21 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
 
-// https://www.codeproject.com/Articles/43438/Connect-C-to-MySQL
-// https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql
-
-/*
- * CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
-
-To connect run:
-    mysql -uroot
-
-To have launchd start mysql now and restart at login:
-  brew services start mysql
-Or, if you don't want/need a background service you can just run:
-  mysql.server start
-
- */
 
 
 namespace todos{
@@ -162,22 +147,6 @@ class DBinterface
     }
 
 
-
-    
-/*
- axios.post('/api/save/task', {
-  typeID: 33,
-userID: 44,
-taskStatusID: 55,
-  description: 'Værdens beste task'
-}).then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-*/
-
     //Insert statement
     public String saveTask(Task task)
     {
@@ -208,18 +177,7 @@ taskStatusID: 55,
         return "error";
             
     }
-        /*
-         axios.post('/api/save/user', {
-            name: "king kong",
-            email: "jungelen@longisland.jun",
-            skills: "king over the monkeys"
-        }).then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        */
+
 
     // save new user
     public String saveUser(User newUser){
