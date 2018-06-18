@@ -1,7 +1,14 @@
 # todos for ACOS
 
-## Technology stack
+##Screendump
 
+Screendump for Task overview page:
+
+![screendump](./screendump.png )
+
+
+
+## Technology stack
  
 
 * DB  ::  MySQL Distrib 5.7.22, for osx10.13 (x86_64)
