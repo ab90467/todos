@@ -97,9 +97,11 @@ class DBinterface
         
         map.Add("_mainQuery_", mainListQuery);
         map.Add("tasks", mainListQuery + " order by d.status desc");
-        map.Add("users", "Select id, name from users order by name asc");
+        map.Add("__users", "Select id, name from users order by name asc");
+        map.Add("users", "select id, concat(name, ' -',skills) as 'name' from users order by name asc");
         map.Add("status", "Select id, status as 'name' from taskStatus order by status desc");
         map.Add("tasktypes", "Select id, value as 'name' from taskType order by value asc");
+        map.Add("__tasktypes","Select id, concat(value, ' -', description) as 'name' from taskType order by value asc");
 
         string mapValue;
         if (map.TryGetValue(key, out mapValue))

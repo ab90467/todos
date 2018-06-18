@@ -4,59 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TODOS</title>
+    <title>TODO demo app</title>
 
 </head>
 
-<body>
+<body style="padding:10px">
 
     <h1>TODO</h1>
 
-    <div id="todoapp">
-
-        <tabs>
-            <tab id="todolist" name="Todos">
-
-                <listtasks></listtasks>
-
-                <div style="padding:10px 0 0 20px">
-                    <a href="#task/0">New task</a> | <a href="#user/0">New user</a>
-                </div>
-
-
-            </tab>
-            <tab id="task" name="Task">
-
-                <Task></Task>
-
-                <div style="padding:10px 0 0 20px">
-                    <a title="go back to overview page" href="#todolist">Dismiss and go back to Todos overview</a> | <a href="#user/0">New user</a>
-                </div>
-
-            </tab>
-            <tab id="user" name="User">
-                <User></User>
-                <div style="padding:10px 0 0 20px">
-                    <a title="go back to overview page" href="#todolist">Dismiss and go back to Todos overview</a> | <a href="#task/0">New task</a>
-                </div>
-            </tab>
-        </tabs>
-        <footer>Acos demoapp Todo. For meeting Thuesday 19.06 09:00</footer>
-    </div>
+    <div id="todoapp"></div>
 
     <script src="./bundle.js"></script>
 </body>
 
-<p>todolist for meg</p>
-<ul>
-    <li>validering før submit !!</li>
 
-    <li>accessebility -titler etc</li>
-    <li>refaktor så dialog ref ikke er med -app.js tilbake på plass</li>
+<div style="display:none">
+    <p>todolist for meg</p>
+    <ul>
 
-    <li>fjerne browser start når c# app bygges</li>
-    <li>footer</li>
-    <li>pwa</li>
-</ul>
+        <li>CSS på settings, for mye luft nederst</li>
+
+        <li>desc i drop down på task status, tasktype, user ? </li>
+        <li>vurdere å gjøre Create new task og user mer synlig</li>
+        <li>validering før submit !!</li>
+        <li>accessebility -titler etc</li>
+
+
+        <li>pwa</li>
+    </ul>
+</div>
 
 </html>

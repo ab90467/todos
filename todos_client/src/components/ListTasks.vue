@@ -1,7 +1,7 @@
 <template>
     <div>
       <div v-show="showBackLink" class="data-tablee-cell">
-        <span class="data-tablee-text"><a title="click here to go back to main todolist" href="#todolist"><h4>< back to main todo list</h4></a></span>
+        <span class="data-tablee-text"><a class="backLink" title="click here to go back to main todolist"  href="#todolist"><h4>◄ back to main todo list</h4></a></span>
       </div> 
       <data-tablee :cols="cols" :rows="rows">
          <template slot="row" slot-scope="{ row, index }">
@@ -33,12 +33,14 @@
                 </svg>
               </template>
               <template slot="body">
-                  <a title="show other task assign to this user" :href="`#todolist/${row.userId}`">Show all task for this user</a><br/>
-                  <a title="edit properties on this task" :href="`#task/${row.id}`">Edit task</a><br/>
-                  <a title="edit user assigned to this task" :href="`#user/${row.userId}`">Edit user</a><br/>
-                  <hr style="margin:2px 0 2px 0"/>
-                  <a title="create new task" :href="`#task/0`">New task</a><br/>
-                  <a title="create new user" :href="`#user/0`">New user</a><br/>
+                <ul>
+                  <li><a title="show other task assign to this user" :href="`#todolist/${row.userId}`">Show all task for this user</a></li>
+                  <li><a title="edit properties on this task" :href="`#task/${row.id}`">Edit task</a></li>
+                  <li><a title="edit user assigned to this task" :href="`#user/${row.userId}`">Edit user</a></li>
+                  <li><hr style="margin:2px 0 2px 0"/></li>
+                  <li><a title="create new task" :href="`#task`">New task</a></li>
+                  <li><a title="create new user" :href="`#user`">New user</a></li>
+                </ul>
               </template>
             </dropdown>
           </td>
@@ -63,8 +65,8 @@
         data() {
             return {
                 cols : [
-                  { label: 'ID', sort: false ,field: 'id'},
-                  { label: 'Type', sort: false ,field: 'tasktype'},
+                  { label: 'ID', sort: true  ,field: 'id'},
+                  { label: 'Type',field: 'tasktype'},
                   { label: 'Status', field: 'status'},
                   { label: 'Description', sort: false, field: 'descr' },
                   { label: 'User',field: 'user' }
@@ -90,6 +92,7 @@
           });
           hashFunc(); 
         },
+
         methods: {
           getStatus(userId){
             let l= this.$loading.show();
@@ -109,12 +112,28 @@
 
 <style scoped>
     @import '../css/listTasks.scss';
- 
+    ul{
+      padding: 0px;
+    }
+    li {
+      display: block;
+      line-height: 1.8em;
+    }
+    li:hover {
+      background-color: #eee;
+      
+    }
+    li > a {
+      width:12em;
+      text-decoration: none;
+      padding: 10px;
+    }
+    .backLink {
+      text-decoration: none;
+    }
 </style>
+
 <style>
-  /*todo move this to app.vue*/
-   @import '../css/bootstrap.css';
-   @import  '../../node_modules/vue-loading-overlay/dist/vue-loading.min.css';
   .-unsortable > span.data-tablee-icon {
       display:none;
   }
@@ -122,12 +141,4 @@
     cursor: pointer;
     color : #5e6684;
   }
-  footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color :#5e6684;
-  height: 100%;
-  margin-top: -50px;
-}
 </style>

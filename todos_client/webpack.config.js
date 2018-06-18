@@ -4,9 +4,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: './dist',
-        filename: 'index.js',
-        library: 'modal-vue',
-        libraryTarget: 'umd'
+        filename: 'index.js'
     },
     resolve: {
         extensions: ['.js', '.vue', '.json']

@@ -67,12 +67,12 @@ export default {
           styleClasses:'col-md-7'     
         },{
           type : "submit",
-          //onSubmit : this.validateAndSendContent,
+ 
           buttonText : "Save task",
           validateBeforeSubmit: true,
           onSubmit(model, schema) {
             
-            console.log("Form submitted! ", this);
+            // console.log("Form submitted! ", this);
             // native check -should be able to hook into form generator validation status...
             if(model.descr === "" || model.taskstatus === 0 || model.tasktype === 0 || model.user === 0  ){
               return;
@@ -143,8 +143,12 @@ export default {
           return;
       }
       let l= this.$loading.show();
+      // make sure we have updated user list 
+      const data = this.schema.fields;
+      ajax.getList('userlist').then((resp) =>{
+        data.find(field => field.model === 'user').values = resp;
+      });
       const taskId = window.location.hash.split('/')[1];
-      
       if(taskId && taskId  !== "0"){
         const m = this.model;
         ajax.getTaskWithSpesificId(taskId).then((resp)=>{
