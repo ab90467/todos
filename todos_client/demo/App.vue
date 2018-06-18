@@ -94,9 +94,17 @@
   .footer-element{
     padding-right:10px
   }
+
 </style>
 <style>
 
    @import '../src/css/bootstrap.css';
    @import  '../node_modules/vue-loading-overlay/dist/vue-loading.min.css';
+  .acos-logo{
+    height:25px;    
+    height: 38px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
 </style>
