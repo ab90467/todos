@@ -26,8 +26,8 @@
         </tabs>
         <footer>
           <span class="footer-element">ACOS TODO demoapp. For meeting Thuesday 19/06/2018 09:00 </span>
-          <span class="footer-element"><a href="https://www.acos.no/om-acos/vil-du-vare-med-pa-var-internasjonale-satsing/" target="_blank"> Description position</a></span>
-          <span class="footer-element"><a href="https://github.com/ab90467/todos" target="_blank">GIT repo</a></span>
+          <span class="footer-element"><a title="ACOS " href="https://www.acos.no/om-acos/vil-du-vare-med-pa-var-internasjonale-satsing/" target="_blank"> Description position</a></span>
+          <span class="footer-element"><a title="GIT repo for this application" href="https://github.com/ab90467/todos" target="_blank">GIT repo</a></span>
         </footer>
   </div>      
 </template>
